@@ -23,10 +23,10 @@ export class LoginFormComponent {
   status: RequestStatus = 'init';
   
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private route: ActivatedRoute
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly route: ActivatedRoute
   ) { 
     this.route.queryParamMap.subscribe(params => {
       const email = params.get('email');
@@ -40,7 +40,7 @@ export class LoginFormComponent {
     if (this.form.valid) {
       this.status = 'loading';
       const { email, password } = this.form.getRawValue();
-      // TODO
+
       this.authService.login(email, password).subscribe(
         {
           next:(response) => { 
