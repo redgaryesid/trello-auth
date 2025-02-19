@@ -11,7 +11,7 @@ export class AuthService {
   apiURL = environment.API_URL;
 
   constructor(
-    private http: HttpClient
+    private readonly http: HttpClient
   ) {
 
    }
@@ -31,4 +31,11 @@ export class AuthService {
       password
     });
    }
+
+   isAvailable(email: string) {
+    return this.http.post<{isAvailable:boolean}>(`${this.apiURL}/auth/is-available`, {
+      email
+    });
+   }
+
 }
