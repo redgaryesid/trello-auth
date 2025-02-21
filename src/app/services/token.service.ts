@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { getCookie, setCookie,removeCookie } from 'typescript-cookie';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,15 +10,17 @@ export class TokenService {
   constructor() { }
 
   saveToken(token: string) {
-    localStorage.setItem('token', token);
+    //De esta manera se crea la cookie, guardando el token en el navegador por 365 días, esta configuración se hace diciendole 
+    //al setcookie por medio del expires que dure 365 días, el path se configura como '/', para que la cookie sea accesible en todo el dominio
+    setCookie('token-clone-trello', token, { expires: 365, path: '/' });
   }
 
   getToken() {
-    const token= localStorage.getItem('token');
+    const token= getCookie('token-clone-trello');
     return token;
   }
 
   removeToken() {
-    localStorage.removeItem('token');
+    removeCookie('token-clone-trello');
   }
 }
