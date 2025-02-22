@@ -11,7 +11,7 @@ export class TokenService {
 
   saveToken(token: string) {
     //De esta manera se crea la cookie, guardando el token en el navegador por 365 días, esta configuración se hace diciendole 
-    //al setcookie por medio del expires que dure 365 días, el path se configura como '/', para que la cookie sea accesible en todo el dominio
+    //al setcookie por medio del expires que dure 365 días, el path se configura como '/', para que la cookie sea accesible en el dominio completo
     setCookie('token-clone-trello', token, { expires: 365, path: '/' });
   }
 

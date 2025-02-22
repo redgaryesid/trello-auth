@@ -65,4 +65,8 @@ export class AuthService {
       token
     });
    }
+
+   logout() {
+    this.tokenService.removeToken();
+   }
 }
