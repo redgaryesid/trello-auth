@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { getCookie, setCookie,removeCookie } from 'typescript-cookie';
 
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +24,33 @@ export class TokenService {
 
   removeToken() {
     removeCookie('token-clone-trello');
+  }
+
+  isValidToken() {
+    //Obtenemos el token
+    const token = this.getToken();
+    //Validamos si el token existe
+   if(!token){
+    //Si no existe retornamos false
+     return false;
+   }
+   //Si existe el token, lo decodificamos
+   const decodeToken = jwtDecode<JwtPayload>(token);
+   //Validamos el dedocificado del token
+   if(decodeToken && decodeToken?.exp){
+    
+    //Declaramos una variable con la fecha de hoy
+    const tokenDate = new Date(0);
+    //Le asignamos la fecha de expiración del token
+    tokenDate.setUTCSeconds(decodeToken.exp);
+
+    //Declaramos una variable con la fecha de hoy
+    const today = new Date();
+    //Validamos si la fecha de expiración del token es mayor a la fecha de hoy
+    return tokenDate.getTime() > today.getTime();
+
+   }
+   //Si el decode token no es valido, retornamos false
+   return false;
   }
 }
