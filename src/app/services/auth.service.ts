@@ -8,6 +8,8 @@ import {ResponseLogin} from '@models/auth.model';
 import { User } from '@models/user.model';
 import { BehaviorSubject } from 'rxjs';
 
+import { checkToken } from '@interceptors/token.interceptor';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -74,14 +76,8 @@ export class AuthService {
    }
    
    getProfile() {
-    const token = this.tokenService.getToken(); 
-    return this.http.get<User>(`${this.apiURL}/auth/profile`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    ).pipe(
+    
+    return this.http.get<User>(`${this.apiURL}/auth/profile`,{ context:checkToken()}).pipe(
       tap(user=>{
         this.user$.next(user);
       })
